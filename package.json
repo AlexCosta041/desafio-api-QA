@@ -1,0 +1,20 @@
+{
+  "name": "boas-praticas",
+  "version": "1.0.0",
+  "description": "Boas praticas minsait",
+  "scripts": {
+    "test": "cypress run",
+    "cy:open": "cypress open"
+  },
+  "keywords": [
+    "cypress.io",
+    "Capacitacao",
+    ""
+  ],
+  "author": "Alex",
+  "license": "MIT",
+  "devDependencies": {
+    "@faker-js/faker": "^7.6.0",
+    "cypress": "^12.8.1"
+  }
+}
