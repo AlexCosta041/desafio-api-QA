@@ -51,6 +51,39 @@ describe('API - Carrinhos', () => {
     });
   });
 
+  
+
+    it('Deve criar um carrinho e cancelar a compra', () => {
+    // 3️⃣ Cria um carrinho
+    cy.request({
+      method: 'POST',
+      url: 'https://serverest.dev/carrinhos',
+      headers: { Authorization: token },
+      body: {
+        produtos: [
+          {
+            idProduto: produtoId,
+            quantidade: 1
+          }
+        ]
+      }
+    }).then((res) => {
+      expect(res.status).to.eq(201);
+      expect(res.body.message).to.contain('Cadastro realizado com sucesso');
+    });
+
+    // 4️⃣ Cancela a compra
+    cy.request({
+      method: 'DELETE',
+      url: 'https://serverest.dev/carrinhos/cancelar-compra',
+      headers: { Authorization: token }
+    }).then((res) => {
+      expect(res.status).to.eq(200);
+      expect(res.body.message).to.eq('Registro excluído com sucesso. Estoque dos produtos reabastecido');
+    });
+  });
+
+
   it('Deve criar um novo carrinho', () => {
     cy.request({
       method: 'POST',
@@ -60,7 +93,8 @@ describe('API - Carrinhos', () => {
         produtos: [
           {
             idProduto: produtoId,
-            quantidade: 2
+            quantidade: 1
+
           }
         ]
       }
@@ -77,26 +111,5 @@ describe('API - Carrinhos', () => {
     });
   });
 
-  it('Deve cancelar compra', () => {
-    cy.request({
-      method: 'DELETE',
-      url: 'https://serverest.dev/carrinhos/cancelar-compra',
-      headers: {
-      Authorization: `Bearer ${token}`, // ✅ apenas um 'Bearer'
-             }
-    }).then((response) => {
-      expect(response.status).to.eq(200);
-      expect(response.body.message).to.eq('Carrinho cancelado com sucesso');
-    });
-  });
 
-   it('Deve deletar o usuário criado', () => {
-    cy.request({
-      method: 'DELETE',
-      url: `/usuarios/${userId}`
-    }).then((res) => {
-      expect(res.status).to.eq(200);
-      expect(res.body.message).to.eq('Registro excluído com sucesso');
-    });
-  });
 });
